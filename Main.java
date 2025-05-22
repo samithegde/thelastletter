@@ -125,9 +125,11 @@ public class Main {
 
             if (userGuess.length() == 1){
                 letterGuess = userGuess.charAt(0);
+                boolean letterFound = false;
                 for (int i = 0; i < correctWord.length(); i++){
                     if (correctWord.charAt(i) == letterGuess){
                         wordStatus[i] = letterGuess;
+                        letterFound = true;
                     }
                 }
                 if (!letterFound){
