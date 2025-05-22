@@ -74,9 +74,70 @@ public class Main {
             System.out.println("‾‾‾‾‾‾‾‾‾‾‾‾‾ ");
         }
     }
+
+    public static boolean hasPlayerWon(char[] wordStatus){
+        for (int i = 0; i < wordStatus.length; i++){
+            if (wordStatus[i] == '_'){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static int[] playHangman(String[] wordSelection){
+        Scanner input = new Scanner(System.in);
+        
+        int wordIndex = (int)(Math.random() * wordSelection.length);
+        String correctWord = wordSelection[wordIndex];
+        int[] toReturn = new int[2];
+        int wrongGuesses = 0;
+        char[] wrongLetters = new char[26];
+        char[] wordStatus = new char[correctWord.length()];
+        char letterGuess;
+        boolean userWon = false;
+
+        for (int i = 0; i < wordStatus.length; i++){
+            wordStatus[i] = '_';
+        }
+
+        while (!userWon && wrongGuesses < 6){
+            printHangman(wrongGuesses);
+            System.out.println();
+            for (int i = 0; i < wordStatus.length; i++){
+                System.out.print(wordStatus[i]);
+            }
+            for (int i = 0; i < wrongGuesses; i++){
+                System.out.print(wrongLetters[i] + " ");
+            }
+
+            System.out.print("Your Guess: ");
+            String userGuess = input.nextLine().trim().toLowerCase();
+
+            if (userGuess.length() == 1){
+                letterGuess = userGuess.charAt(0);
+                for (int i = 0; i < correctWord.length(); i++){
+                    if (correctWord.charAt(i) == letterGuess){
+                        wordStatus[i] = letterGuess;
+                    }
+                }
+            }
+            else {
+                if (correctWord.equals(userGuess)){
+                    userWon = true;
+                }
+                else { 
+                    wrongGuesses++;
+                }
+            }
+        }
+
+
+
+
     
+    }
     public static void main(String[] args) {
-      
+        Scanner input = new Scanner(System.in);
       for(int i = 0; i <= 6; i++)
         {
           printHangman(i);
