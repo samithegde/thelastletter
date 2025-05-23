@@ -97,13 +97,12 @@ public class Main {
         char[] wrongLetters = new char[26];
         char[] wordStatus = new char[correctWord.length()];
         char letterGuess;
-        boolean userWon = false;
 
         for (int i = 0; i < wordStatus.length; i++){
             wordStatus[i] = '_';
         }
 
-        while (!userWon && wrongGuesses < 6){
+        while (!hasPlayerWon(wordStatus) && wrongGuesses < 6){
             clearScreen();
             printHangman(wrongGuesses);
 
@@ -126,34 +125,54 @@ public class Main {
             if (userGuess.length() == 1){
                 letterGuess = userGuess.charAt(0);
                 boolean letterFound = false;
+
                 for (int i = 0; i < correctWord.length(); i++){
                     if (correctWord.charAt(i) == letterGuess){
                         wordStatus[i] = letterGuess;
                         letterFound = true;
                     }
                 }
+
                 if (!letterFound){
-                    wrongGuesses++;
-                    wrongLetters[wrongGuesses - 1] = letterGuess;
+                    boolean alreadyGuessed = false;
+                    for (int i = 0; i < wrongGuesses; i++){
+                        if (wrongLetters[i] == letterGuess){
+                            alreadyGuessed = true;
+                        }
+                    }
+                    if (!alreadyGuessed){
+                        wrongGuesses++;
+                        wrongLetters[wrongGuesses - 1] = letterGuess;
+                    }
+
                 }
+
             }
             else {
                 if (correctWord.equals(userGuess)){
-                    userWon = true;
                     toReturn[0] = 0;
                     toReturn[1] = wrongGuesses;
+                    clearScreen();
+                    printHangman(wrongGuesses);
+                    System.out.println("You win! The word was " + correctWord + ".");
                     return toReturn;
+                    
                 }
                 else { 
                     wrongGuesses++;
                 }
             }
-            userWon = hasPlayerWon(wordStatus);
         }
+        clearScreen();
+        printHangman(wrongGuesses);
         if (wrongGuesses >= 6){
-                toReturn[0] = 1;
-                toReturn[1] = wrongGuesses;
+            toReturn[0] = 1;
+            System.out.println("You lost! The word was " + correctWord + ". Better luck next time!");
         }
+        else {
+            System.out.println("You win! The word was " + correctWord + ".");
+        }
+        toReturn[1] = wrongGuesses;
         return toReturn;
     }
     public static void main(String[] args) {
@@ -163,6 +182,8 @@ String[] oceanWords = new String[] {"sea", "marine", "smelt", "coral", "atlantic
 	String[] desertWords = new String[] {"desert", "cactus", "sandy", "sahara","sandstone", "pyramid", "quartz", "shrubs", "sandstorm", "dunes", "camel", "vultures", "rattlesnake", "dragonfruit"};
 	String[] coldWords = new String[] {"penguin", "glacier", "frozen", "tundra", "iceberg", "frost", "permafrost", "chill", "arctic", "frigid", "snow", "blizzard"};
 
+
+        int highScore = 0;
         int[] gameResult = playHangman(forestWords);
         if (gameResult[0] == 0){
             // user won
@@ -171,6 +192,10 @@ String[] oceanWords = new String[] {"sea", "marine", "smelt", "coral", "atlantic
             // user lost
         }
         int score = gameResult[1];
+        
+        if (score > highScore){
+            highScore = score;
+        }
 
       
     }
