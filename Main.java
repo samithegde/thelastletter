@@ -156,6 +156,7 @@ public class Main {
         }
         return toReturn;
     }
+    
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         String[] forestWords = new String[] {"trees", "moss", "fern", "bark", "pine", "leaf","vines","roots", "birch", "maple", "spruce", "branch","canopy", "forest", "timber", "wildlife", "squirrel", "mushroom", "sapling", "nature", "acorns", "cedar", "jungle", "bamboo", "fallen", "hollow", "thicket", "woodland", "glade", "shade", "lichen", "stump", "treescape", "bushes", "caterpillar", "nest", "badger", "beetle", "cougar", "trail", "grove", "baobab"};
@@ -164,6 +165,7 @@ public class Main {
 	    String[] coldWords = new String[] {"penguin", "glacier", "frozen", "tundra", "iceberg", "frost", "permafrost", "chill", "arctic", "frigid", "snow", "blizzard"};
 
         int[] gameResult = playHangman(forestWords);
+        
         if (gameResult[0] == 0){
             // user won
         }
